@@ -1,7 +1,7 @@
 import numpy as np
 import parameters as pm
 
-
+# cluster ini
 class Cluster:
 	def __init__(self, logger):
 		# 0 means available
