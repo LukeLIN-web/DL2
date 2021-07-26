@@ -53,7 +53,7 @@ def val_loss(net, val_traces, logger, global_step):
 
 	return avg_loss/step
 
-
+# return jct, makespan, reward
 def val_jmr(net, val_traces, logger, global_step, tb_logger):
 	avg_jct = []
 	avg_makespan = []

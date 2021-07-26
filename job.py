@@ -48,7 +48,7 @@ class Job:
 			else:
 				assert self.num_workers <= pm.MAX_NUM_WORKERS+1 and self.num_ps <= pm.MAX_NUM_WORKERS+1
 		except AssertionError as e:
-			print "num_workers:", self.num_workers, "num_ps:", self.num_ps  # 13, 17
+			print ("num_workers:", self.num_workers, "num_ps:", self.num_ps)  # 13, 17
 			raise
 		if self.num_workers == 0:
 			return 0.

@@ -184,5 +184,5 @@ class Trace:
 
 
 if __name__ == '__main__':
-	print "Generate job traces..."
+	print ("Generate job traces...")
 	Trace().get_trace()

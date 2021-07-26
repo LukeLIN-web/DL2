@@ -119,8 +119,7 @@ class RL_Env(Scheduler):
         # mask and adjust probability
         mask = np.ones(pm.ACTION_DIM)
         for i in range(len(self.window_jobs)):
-            if self.window_jobs[
-                    i] is None:  # what if job workers are already maximum
+            if self.window_jobs[i] is None:  # what if job workers are already maximum
                 if pm.PS_WORKER:
                     if pm.BUNDLE_ACTION:  # worker, ps, bundle
                         mask[3 * i] = 0.0
@@ -454,7 +453,7 @@ class RL_Env(Scheduler):
                         self._move()
                         self.logger.debug("No enough resources!")
         if move_on:
-            reward = self.rewards[-1] * move_on
+            reward = self.rewards[-1] * move_on # use last rewards? ? 
         else:
             reward = 0
         return masked_output, action_vec, reward, move_on, valid_state  # invalid state, action and output when move on except for skip ts

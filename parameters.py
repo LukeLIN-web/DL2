@@ -14,7 +14,7 @@ if LOG_MODE == "DEBUG":
 else:
 	NUM_AGENTS = 1  # at most 28 for tesla p100 and 40 for gtx 1080ti
 
-TRAINING_MODE = "RL"  # or "RL"
+TRAINING_MODE = "RL"  # or "SL"
 if TRAINING_MODE == "SL":
 	HEURISTIC = "DRF"  # the heuristic algorithm used for supervised learning
 if TRAINING_MODE == "RL":

@@ -402,7 +402,7 @@ def central_agent(net_weights_qs, net_gradients_qs, stats_qs):
 		# os.system("sudo pkill -9 python")
 		exit(0)
 
-
+# supervised learning 
 def sl_agent(net_weights_q, net_gradients_q, stats_q, id):
 	logger = log.getLogger(name="agent_"+str(id), level=pm.LOG_MODE)
 	logger.info("Start supervised learning, agent " + str(id) + " ...")
@@ -413,6 +413,7 @@ def sl_agent(net_weights_q, net_gradients_q, stats_q, id):
 	config = tf.ConfigProto()
 	config.gpu_options.allow_growth = True
 	with tf.Session(config=config) as sess, tf.device("/gpu:"+str(id%2)):
+		# invoke network 
 		policy_net = network.PolicyNetwork(sess, "policy_net", pm.TRAINING_MODE, logger)
 		sess.run(tf.global_variables_initializer())  # to avoid batch normalization error
 
@@ -454,16 +455,13 @@ def sl_agent(net_weights_q, net_gradients_q, stats_q, id):
 
 					for (input, label) in data:
 						mem_store.store(input, 0, label, 0)
+					# store in mem,  use random SGD, take sample from mem_store, then 
 
 					if mem_store.full():
 						# prepare a training batch
 						_, trajectories, _ = mem_store.sample(pm.MINI_BATCH_SIZE)
 						input_batch = [traj.state for traj in trajectories]
 						label_batch = [traj.action for traj in trajectories]
-
-						# if global_step % 10 == 0:
-						# 	print "input", input_batch[0]
-						# 	print "label", label_batch[0]
 
 						# pull latest weights before training
 						weights = net_weights_q.get()
@@ -668,7 +666,6 @@ def rl_agent(net_weights_q, net_gradients_q, stats_q, id):
 
 								for aa in range(len(actions_batch)):
 									if actions_batch[aa][-1] == 1:
-										# print "rewards:", rewards_batch[aa], "td_loss:", td_loss[aa]
 										logger.debug("rewards:" + str(rewards_batch[aa]) + "td_loss:" + str(td_loss[aa]))
 
 								for i in range(len(policy_grads)):

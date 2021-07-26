@@ -70,8 +70,8 @@ def test():
 		#print env.observe()
 		# print env.data
 		# input()
-	print env.get_results()
-	print env.get_job_jcts()
+	print (env.get_results())
+	print (env.get_job_jcts())
 	for i in range(len(env.trace)):
 		if i in env.trace:
 			for job in env.trace[i]:
