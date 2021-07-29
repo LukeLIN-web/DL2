@@ -341,46 +341,12 @@ def central_agent(net_weights_qs, net_gradients_qs, stats_qs):
 							value_net.apply_gradients(value_gradients)
 							assert len(value_weights) == len(value_gradients)
 						else:
-							policy_gradients = net_gradients_qs[i].get()
+							policy_gradients = net_gradients_qs[i].get() # without critic 
 						policy_net.apply_gradients(policy_gradients)
 						assert len(policy_weights) == len(policy_gradients)
 				if len(updated_agents) > 0:
 					break
 					# break when obtaining at least one agent's push
-			# poll_ids = set([i for i in range(pm.NUM_AGENTS)])
-			# avg_policy_grads = []
-			# avg_value_grads = []
-			# while True:
-			# 	for i in poll_ids.copy():
-			# 		try:
-			# 			if pm.VALUE_NET:
-			# 				policy_gradients, value_gradients = net_gradients_qs[i].get(False)
-			# 			else:
-			# 				policy_gradients = net_gradients_qs[i].get(False)
-			# 			poll_ids.remove(i)
-			# 			if len(avg_policy_grads) == 0:
-			# 				avg_policy_grads = policy_gradients
-			# 			else:
-			# 				for j in range(len(avg_policy_grads)):
-			# 					avg_policy_grads[j] += policy_gradients[j]
-			# 			if pm.VALUE_NET:
-			# 				if len(avg_value_grads) == 0:
-			# 					avg_value_grads = value_gradients
-			# 				else:
-			# 					for j in range(len(avg_value_grads)):
-			# 						avg_value_grads[j] += value_gradients[j]
-			# 		except:
-			# 			continue
-			# 	if len(poll_ids) == 0:
-			# 		break
-			# for i in range(0, len(avg_policy_grads)):
-			# 	avg_policy_grads[i] = avg_policy_grads[i] / pm.NUM_AGENTS
-			# policy_net.apply_gradients(avg_policy_grads)
-			#
-			# if pm.VALUE_NET:
-			# 	for i in range(0, len(avg_value_grads)):
-			# 		avg_value_grads[i] = avg_value_grads[i] / pm.NUM_AGENTS
-			# 	value_net.apply_gradients(avg_value_grads)
 
 			# visualize gradients and weights
 			if step % pm.VISUAL_GW_INTERVAL == 0 and pm.EXPERIMENT_NAME is None:

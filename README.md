@@ -20,11 +20,9 @@ python train.py
 
 Check [parameters.py](./parameters.py) if you want to change some hyper-parameters. For ease of comparison, we also provide a script [experiment.py](./experiment.py) and you can choose different configurations.
 
-You can also run the following command. We improve the basic policy gradient-based RL with the actor-critic algorithm, for faster convergence of the policy network.
+We improve the basic policy gradient-based RL with the actor-critic algorithm, for faster convergence of the policy network.
 
-```shell
-python train_a3c.py 
-```
+
 
 ## Trace
 We put some traces collected from our testbed in [config_speed.txt](./config_speed.txt). You may need to collect your own trace if running on a different setup. For k8s setup, please check [Optimus](https://github.com/pengyanghua/optimus).
@@ -32,6 +30,29 @@ We put some traces collected from our testbed in [config_speed.txt](./config_spe
 ## Elastic Scaling
 
 Please check the [MXNet repo](https://github.com/pengyanghua/mxnet) for the implementation of elastic resource scaling. We have modified the communication library including KVStore and pslite.
+
+## A3C
+
+We implement a3c in our codes.
+
+We use a `net_gradients_qs = [multiprocessing.Queue(1) for i in range(pm.NUM_AGENTS)]`  to pass our gradients.
+
+Each agent sends gradients to the central agent `net_gradients_q.put(policy_grads)`
+
+Central agent polls and updates parameters,only calculate gradients once one queue is not empty
+
+```python
+					if net_gradients_qs[i].qsize() == 1:
+						updated_agents.append(i)
+						if pm.VALUE_NET:
+							policy_gradients, value_gradients = net_gradients_qs[i].get()
+							value_net.apply_gradients(value_gradients)
+							assert len(value_weights) == len(value_gradients)
+						else:
+							policy_gradients = net_gradients_qs[i].get() # without critic 
+```
+
+ 
 
 ## Function architecture
 
@@ -48,14 +69,14 @@ Please check the [MXNet repo](https://github.com/pengyanghua/mxnet) for the impl
       *  validation
       * collect statistics after training one trace
    * main
-      * start central agent, start each sl or rl agents
+      * start central agent as master.  start each sl or rl agent which will send gradients to the central agent.
 * rl_env.py
    * step(policy NN predict result)  -> masked_output, action_vec, reward, move_on, valid_state
    * 
    * 
 * trace.py
    * Trace(policy NN predict result)  -> masked_output, action_vec, reward, move_on, valid_state
-   * get_trace(numtype=8) -> trace, a list which contains joblist
+   * get_trace -> trace, a list which contains joblist
    *  
 
 ## Publication

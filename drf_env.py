@@ -75,7 +75,7 @@ def test():
 	for i in range(len(env.trace)):
 		if i in env.trace:
 			for job in env.trace[i]:
-				print i+1, job.id, job.type, job.model
+				print (i+1, job.id, job.type, job.model)
 
 
 
