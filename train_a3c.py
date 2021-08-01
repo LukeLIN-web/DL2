@@ -348,6 +348,8 @@ def central_agent(net_weights_qs, net_gradients_qs, stats_qs):
 					break
 					# break when obtaining at least one agent's push
 
+
+
 			# visualize gradients and weights
 			if step % pm.VISUAL_GW_INTERVAL == 0 and pm.EXPERIMENT_NAME is None:
 				assert len(policy_weights) == len(policy_gradients)

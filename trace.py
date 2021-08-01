@@ -69,7 +69,7 @@ class Trace:
 							   21, 26, 24, 34, 29, 30, 26, 36, 31]
 
 		# ali trace, JCT 147 minutes on average
-		self.ali_trace_arrv_pattern = []
+		self.ali_trace_arrv_pattern = [] # confused, not change in following codes.
 
 	def _get_pattern(self, max_arrvs_per_ts):
 		if pm.JOB_ARRIVAL_PATTERN == "Uniform":
@@ -102,7 +102,7 @@ class Trace:
 			else:
 				self.logger.error("unrecognizable arrival pattern!")
 				exit(-1)
-		elif pm.JOB_ARRIVAL_PATTERN == "Ali_Trace":
+		elif pm.JOB_ARRIVAL_PATTERN == "Ali_Trace": # it 
 			ratio = max(self.ali_trace_arrv_pattern)/float(max_arrvs_per_ts)
 			trace = []
 			for arrv in self.ali_trace_arrv_pattern:

@@ -233,7 +233,7 @@ def central_agent(net_weights_qs, net_gradients_qs, stats_qs):
 	config.allow_soft_placement=False
 	config.gpu_options.allow_growth = True
 	tb_logger = tb_log.Logger(pm.SUMMARY_DIR)
-	log_config(tb_logger)
+	log_config(tb_logger) # we could change it to main function because only this place change log_config
 
 	with tf.Session(config=config) as sess:
 		policy_net = network.PolicyNetwork(sess, "policy_net", pm.TRAINING_MODE, logger)

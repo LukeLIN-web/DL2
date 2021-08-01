@@ -11,7 +11,18 @@ We use TensorFlow to train a model. Make sure you have have installed a 1.x vers
 pip install tensorflow-gpu==1.13.1
 ```
 
+reference [Build from source  | TensorFlow (google.cn)](https://tensorflow.google.cn/install/source?hl=en)	
+
+```
+	python2.7, 3.3-3.7	
+	GCC 4.8	
+	Bazel 0.19.2	
+	cuDNN7.4
+	CUDA10.0
+```
+
 ## Training
+
 To train model, run the following command. It will start multiple processes to train a centralized model. 
 
 ```shell
@@ -22,7 +33,7 @@ Check [parameters.py](./parameters.py) if you want to change some hyper-paramete
 
 We improve the basic policy gradient-based RL with the actor-critic algorithm, for faster convergence of the policy network.
 
-
+It seems that train starts tensorboard without send data.
 
 ## Trace
 We put some traces collected from our testbed in [config_speed.txt](./config_speed.txt). You may need to collect your own trace if running on a different setup. For k8s setup, please check [Optimus](https://github.com/pengyanghua/optimus).
@@ -39,7 +50,9 @@ We use a `net_gradients_qs = [multiprocessing.Queue(1) for i in range(pm.NUM_AGE
 
 Each agent sends gradients to the central agent `net_gradients_q.put(policy_grads)`
 
-Central agent polls and updates parameters,only calculate gradients once one queue is not empty
+Central agent polls and updates parameters,only calculate gradients once one queue is not empty.
+
+We don't define agent is a separate class. 
 
 ```python
 					if net_gradients_qs[i].qsize() == 1:
@@ -81,3 +94,21 @@ Central agent polls and updates parameters,only calculate gradients once one que
 
 ## Publication
 A Deep Learning-driven Scheduler for Deep Learning Clusters  arXiv:1909.06040v1 [cs.LG] 13 Sep 2019
+
+
+
+## Remaining Problem
+
+1. `pm.JOB_ARRIVAL_PATTERN == "Ali_Trace"` but `self.ali_trace_arrv_pattern = []` in trace.py.  Empty list without  any assignment
+
+2. ` prob_sum = np.sum(*self*.ali_trace_job_probs[:*num_type*])` `cumsum = np.cumsum(*self*.ali_trace_job_probs[:*num_type*])`  
+ `ali_trace_job_probs` is not define in any other places.
+
+3. 
+
+  
+
+  
+
+  
+
