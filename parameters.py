@@ -124,8 +124,8 @@ JOB_EPOCH_EST_ERROR = 0
 TRAIN_SPEED_ERROR = 0
 REAL_SPEED_TRACE = True  # whether to use real traces collected from experiment testbed
 FIX_JOB_LEN = True
-JOB_LEN_PATTERN = "Ali_Trace"  # Ali_Trace, Normal
-JOB_ARRIVAL_PATTERN = "Ali_Trace"  # Ali_Trace, Uniform, Google_Trace, Poisson
+JOB_LEN_PATTERN = "Normal"  # Ali_Trace, Normal
+JOB_ARRIVAL_PATTERN = "Uniform"  # Ali_Trace, Uniform, Google_Trace, Poisson
 TRAIN_EPOCH_SIZE = 100  # number of traces for training dataset
 TOT_NUM_JOBS = 60  # number of jobs in one trace
 MAX_ARRVS_PER_TS = 3  # max number of jobs arrived in one time slot
@@ -146,7 +146,8 @@ MAX_TS_LEN = 1000  # maximal timeslot length for one trace
 
 
 # neural network
-JOB_ORDER_SHUFFLE = False  # whether to shuffle the order of the jobs in the scheduling window, can also be used for data augmentation
+JOB_ORDER_SHUFFLE = False
+# whether to shuffle the order of the jobs in the scheduling window, can also be used for data augmentation
 if TRAINING_MODE == "SL":
 	JOB_ORDER_SHUFFLE = True
 JOB_SORT_PRIORITY = "Arrival" # or Arrival, Resource, Progress, sort job based on resource or arrival

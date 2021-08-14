@@ -33,10 +33,18 @@ Check [parameters.py](./parameters.py) if you want to change some hyper-paramete
 
 We improve the basic policy gradient-based RL with the actor-critic algorithm, for faster convergence of the policy network.
 
-It seems that train starts tensorboard without send data.
-
 ## Trace
 We put some traces collected from our testbed in [config_speed.txt](./config_speed.txt). You may need to collect your own trace if running on a different setup. For k8s setup, please check [Optimus](https://github.com/pengyanghua/optimus).
+
+#### How do we simulate the environment of real cluster?
+
+input:    resource allocation
+
+ouput:  speed.
+
+we gain func speed = fuc(num ps ,num worker) in speed.py
+
+trace 
 
 ## Elastic Scaling
 
@@ -83,17 +91,43 @@ We don't define agent is a separate class.
       * collect statistics after training one trace
    * main
       * start central agent as master.  start each sl or rl agent which will send gradients to the central agent.
+   
 * rl_env.py
    * step(policy NN predict result)  -> masked_output, action_vec, reward, move_on, valid_state
    * 
    * 
+   
 * trace.py
    * Trace(policy NN predict result)  -> masked_output, action_vec, reward, move_on, valid_state
+   
    * get_trace -> trace, a list which contains joblist
-   *  
+   
+   * trace read config_speed.txt
+   
+   * store fitting functions in speed_funcs[model] 
+   
+   * 
+   
+   * in speed, we could get.
+   
+     ```
+     model = resnet-50 
+     sync_mode = dist_sync,
+     tot_batch_size = 32, 
+     num_ps = 1, 
+     num_worker =1,
+     speeds = list [15.783], 
+     ps_cpu_usages = 1.908,
+     worker_cpu_usages = 0.547
+     ```
+   
 * drf_env.py
    * Trace(policy NN predict result)  -> masked_output, action_vec, reward, move_on, valid_state
    * get_trace -> trace, a list which contains joblist
+   
+* comparison.py
+
+   * def drf , run the RL, 
 
 
 ## Publication
@@ -108,7 +142,7 @@ A Deep Learning-driven Scheduler for Deep Learning Clusters  arXiv:1909.06040v1 
 2. ` prob_sum = np.sum(*self*.ali_trace_job_probs[:*num_type*])` `cumsum = np.cumsum(*self*.ali_trace_job_probs[:*num_type*])`  
  `ali_trace_job_probs` is not define in any other places.
 
-3. 
+3. It seems that train starts tensorboard without send data.
 
   
 
