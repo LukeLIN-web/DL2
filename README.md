@@ -91,6 +91,10 @@ We don't define agent is a separate class.
    * Trace(policy NN predict result)  -> masked_output, action_vec, reward, move_on, valid_state
    * get_trace -> trace, a list which contains joblist
    *  
+* drf_env.py
+   * Trace(policy NN predict result)  -> masked_output, action_vec, reward, move_on, valid_state
+   * get_trace -> trace, a list which contains joblist
+
 
 ## Publication
 A Deep Learning-driven Scheduler for Deep Learning Clusters  arXiv:1909.06040v1 [cs.LG] 13 Sep 2019
