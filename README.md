@@ -122,12 +122,12 @@ We don't define agent is a separate class.
      ```
    
 * drf_env.py
-   * Trace(policy NN predict result)  -> masked_output, action_vec, reward, move_on, valid_state
-   * get_trace -> trace, a list which contains joblist
+   * overwrite the scheduling algorithm in Scheduler,calculate the schedule time.
+   * 
    
 * comparison.py
 
-   * def drf , run the RL, 
+   *   
 
 
 ## Publication

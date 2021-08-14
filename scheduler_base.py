@@ -1,4 +1,4 @@
-import Queue
+import queue as Queue
 import numpy as np
 import parameters as pm
 from cluster import Cluster

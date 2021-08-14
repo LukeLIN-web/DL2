@@ -171,8 +171,7 @@ class Trace:
                         job.num_epochs = int(self.ali_trace_num_epochs[index])
                 else:
                     if pm.JOB_LEN_PATTERN == "Normal":
-                        job.num_epochs = int(self.num_epochs[type]) * np.random.randint(90,
-                                                                                        110) / 100.0
+                        job.num_epochs = int(self.num_epochs[type]) * np.random.randint(90,110) / 100.0
                         # self._weibull_dist()
                     else:
                         job.num_epochs = int(self.ali_trace_num_epochs[type]) * np.random.randint(90, 110) / 100.0
@@ -189,10 +188,9 @@ class Trace:
             if done:
                 break
         assert count_num_jobs == pm.TOT_NUM_JOBS
-        return trace
+        return trace  # a trace has len(arrv_pattern) job list , a job list has 10 job
 
 
 if __name__ == '__main__':
     print("Generate job traces...")
     t = Trace().get_trace()
-    print(t)

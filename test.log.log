@@ -1,0 +1,10 @@
+ scheduler_base.py:60 DEBUG: Job id: 1 type: 5 arrv time: 0 progress: 0.0 total epochs: 28500.0
+ scheduler_base.py:60 DEBUG: Job id: 2 type: 1 arrv time: 0 progress: 0.0 total epochs: 9000.0
+ scheduler_base.py:60 DEBUG: Job id: 3 type: 5 arrv time: 0 progress: 0.0 total epochs: 28500.0
+ scheduler_base.py:60 DEBUG: Job id: 4 type: 3 arrv time: 0 progress: 0.0 total epochs: 1500.0
+ scheduler_base.py:60 DEBUG: Job id: 5 type: 4 arrv time: 0 progress: 0.0 total epochs: 16200.0
+ scheduler_base.py:60 DEBUG: Job id: 6 type: 6 arrv time: 0 progress: 0.0 total epochs: 13800.0
+ scheduler_base.py:60 DEBUG: Job id: 7 type: 7 arrv time: 0 progress: 0.0 total epochs: 9900.0
+ scheduler_base.py:60 DEBUG: Job id: 8 type: 5 arrv time: 0 progress: 0.0 total epochs: 28500.0
+ scheduler_base.py:60 DEBUG: Job id: 9 type: 8 arrv time: 0 progress: 0.0 total epochs: 6900.0
+ scheduler_base.py:60 DEBUG: Job id: 10 type: 1 arrv time: 0 progress: 0.0 total epochs: 9000.0
