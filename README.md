@@ -77,6 +77,16 @@ We don't define agent is a separate class.
 
 ## Function architecture
 
+train use central agent etc to implement a3c
+
+agent use comparison function
+
+comparison invoke various of environment
+
+environment inherit scheduler_base.
+
+scheduler_base has attribute cluster
+
 * Train.py
    * sl_agent
       * use policy network defined at network.py
@@ -127,7 +137,22 @@ We don't define agent is a separate class.
    
 * comparison.py
 
-   *   
+   *   define each  schedule way function. Invoke five scheduler environment.
+   *   open thread pool to run each scheduler. store makespan , jct,  reward list.
+   
+* scheduler.py
+
+   * step : 
+
+      ```python
+      self._prepare()
+      self._schedule()
+      self._progress()
+      ```
+   * we define observe() and state() in scheduler_base.py , we gain state from observation, and store  
+
+
+      
 
 
 ## Publication
@@ -137,14 +162,14 @@ A Deep Learning-driven Scheduler for Deep Learning Clusters  arXiv:1909.06040v1 
 
 ## Remaining Problem
 
-1. `pm.JOB_ARRIVAL_PATTERN == "Ali_Trace"` but `self.ali_trace_arrv_pattern = []` in trace.py.  Empty list without  any assignment
+1. `pm.JOB_ARRIVAL_PATTERN == "Ali_Trace"` but `self.ali_trace_arrv_pattern = []` in trace.py.  Empty list without any assignment
 
 2. ` prob_sum = np.sum(*self*.ali_trace_job_probs[:*num_type*])` `cumsum = np.cumsum(*self*.ali_trace_job_probs[:*num_type*])`  
  `ali_trace_job_probs` is not define in any other places.
 
 3. It seems that train starts tensorboard without send data.
 
-  
+4. fifo env cannot solve same time, which can be solved by more condition.
 
   
 
