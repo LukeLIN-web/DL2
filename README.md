@@ -133,7 +133,7 @@ scheduler_base has attribute cluster
    
 * drf_env.py
    * overwrite the scheduling algorithm in Scheduler,calculate the schedule time.
-   * 
+   * add node in  `job.curr_worker/ps_placment` 
    
 * comparison.py
 
@@ -142,17 +142,26 @@ scheduler_base has attribute cluster
    
 * scheduler.py
 
-   * step : 
+   * step :   
 
       ```python
       self._prepare()
       self._schedule()
-      self._progress()
+      self._progress() ,  progress uses job.step(), increase epoch, if epoch >= real ,
       ```
-   * we define observe() and state() in scheduler_base.py , we gain state from observation, and store  
-
-
       
+   * we define observe() and state() in `scheduler_base.py` , we gain state from observation, and store  
+   
+   * 
+   
+   * It use `cluster.py`
+   
+* job.py
+
+   * step :  including location,  calculate  number of ps/worker on each cluster node. calculate effective_ inter/intra bandwidth. - > Transmission time   -> iteration time  ,  calculate epoch, 
+
+
+​      
 
 
 ## Publication
