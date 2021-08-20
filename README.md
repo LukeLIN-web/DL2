@@ -54,6 +54,8 @@ Please check the [MXNet repo](https://github.com/pengyanghua/mxnet) for the impl
 
 We implement a3c in our codes.
 
+We train Policy NN with REINFORCE algorithm, critic NN with temporal  difference algorithm.
+
 We use a `net_gradients_qs = [multiprocessing.Queue(1) for i in range(pm.NUM_AGENTS)]`  to pass our gradients.
 
 Each agent sends gradients to the central agent `net_gradients_q.put(policy_grads)`
@@ -118,7 +120,7 @@ scheduler_base has attribute cluster
    
    * 
    
-   * in speed, we could get.
+   * in speed, we could get some information. DL2 only use three information: speeds function, num_ps, num_ workers.
    
      ```
      model = resnet-50 
@@ -133,32 +135,34 @@ scheduler_base has attribute cluster
    
 * drf_env.py
    * overwrite the scheduling algorithm in Scheduler,calculate the schedule time.
+   * what is the difference between `drf_env` and `exp_drf_env`?
    * add node in  `job.curr_worker/ps_placment` 
+   * _ schedule method :  invoke `_state` to allocate a PS/worker/bundle to job i ( It seems like NN action? why it named environment?  )
    
 * comparison.py
 
    *   define each  schedule way function. Invoke five scheduler environment.
    *   open thread pool to run each scheduler. store makespan , jct,  reward list.
    
-* scheduler.py
+* scheduler_base.py
 
-   * step :   
+   * step() :   
 
       ```python
-      self._prepare()
-      self._schedule()
-      self._progress() ,  progress uses job.step(), increase epoch, if epoch >= real ,
+      self._prepare() #init each list
+      self._schedule()   #overwrite by each xx_env
+      self._progress() #  each running job runs a job.step(), increase epoch and reward, if epoch is enough, determine end_time. 
       ```
       
-   * we define observe() and state() in `scheduler_base.py` , we gain state from observation, and store  
+   *  `observe()`  method:   put uncompleted jobs in priority queue, then fill the `state`  matrix from the job information. 
    
-   * 
+   * ​    `state()` in `scheduler_base.py` , we gain state from observation,  store  `(input,label)`in the list `self.data` , which is the **Trajectory** in DRL,    input is state, label is action
    
-   * It use `cluster.py`
+   * It use `cluster.py`   
    
 * job.py
 
-   * step :  including location,  calculate  number of ps/worker on each cluster node. calculate effective_ inter/intra bandwidth. - > Transmission time   -> iteration time  ,  calculate epoch, 
+   * step() :  including location,  calculate  number of ps/worker on each cluster node. calculate effective_ inter/intra bandwidth. - > Transmission time   -> iteration time  ->epoch
 
 
 ​      
@@ -178,9 +182,7 @@ A Deep Learning-driven Scheduler for Deep Learning Clusters  arXiv:1909.06040v1 
 
 3. It seems that train starts tensorboard without send data.
 
-4. fifo env cannot solve same time, which can be solved by more condition.
-
-  
+4. fifo env cannot solve same time, which can be solved by more condition. I import random and add `random.random()`   
 
   
 
