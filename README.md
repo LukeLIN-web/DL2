@@ -164,8 +164,8 @@ scheduler_base has attribute cluster
 
    * step() :  including location,  calculate  number of ps/worker on each cluster node. calculate effective_ inter/intra bandwidth. - > Transmission time   -> iteration time  ->epoch
 
-
-​      
+* rl_env.py 
+  * step() missing 1 required positional   
 
 
 ## Publication
@@ -176,13 +176,10 @@ A Deep Learning-driven Scheduler for Deep Learning Clusters  arXiv:1909.06040v1 
 ## Remaining Problem
 
 1. `pm.JOB_ARRIVAL_PATTERN == "Ali_Trace"` but `self.ali_trace_arrv_pattern = []` in trace.py.  Empty list without any assignment
-
 2. ` prob_sum = np.sum(*self*.ali_trace_job_probs[:*num_type*])` `cumsum = np.cumsum(*self*.ali_trace_job_probs[:*num_type*])`  
  `ali_trace_job_probs` is not define in any other places.
-
 3. It seems that train starts tensorboard without send data.
-
-4. fifo env cannot solve same time, which can be solved by more condition. I import random and add `random.random()`   
-
-  
+4. fifo env cannot solve same time, which can be solved by more condition. I import random and add `random.random()`   in these xx_env.py
+5. step() missing 1 required positional   argument:'output'
+6. rl_env  step()  has  some problems , one is   [action/3]  indicces float error, another is step(self,output)  overwrite scheduler_base.py . I cannot run test() correctly.
 
