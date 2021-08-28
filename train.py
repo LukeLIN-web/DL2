@@ -239,7 +239,7 @@ def central_agent(net_weights_qs, net_gradients_qs, stats_qs):
 		policy_net = network.PolicyNetwork(sess, "policy_net", pm.TRAINING_MODE, logger)
 		if pm.VALUE_NET:
 			value_net = network.ValueNetwork(sess, "value_net", pm.TRAINING_MODE, logger)
-		logger.info("Create the policy network, with "+str(policy_net.get_num_weights())+" parameters")
+		logger.info("Create the policy network, with "+str(policy_net.get_num_weights())+" parameters")# this could work
 
 		sess.run(tf.global_variables_initializer())
 		tb_logger.add_graph(sess.graph)
@@ -259,12 +259,14 @@ def central_agent(net_weights_qs, net_gradients_qs, stats_qs):
 		start_t = time.time()
 
 		if pm.VAL_ON_MASTER:
+			logger.info("start validation for heuristics and initialized NN.") # It could begin working.
 			validation_traces = []  # validation traces
 			tags_prefix = ["DRF: ", "SRTF: ", "FIFO: ", "Tetris: ", "Optimus: "]
 			for i in range(pm.VAL_DATASET):
 				validation_traces.append(trace.Trace(None).get_trace())
 			stats = comparison.compare(copy.deepcopy(validation_traces), logger)
-			# deep copy to avoid changes to validation_traces
+			logger.info("return state ") #  It cannot work
+			# deep copy to avoid cha	nges to validation_traces
 			if not pm.SKIP_FIRST_VAL:
 				stats.append(test(policy_net, copy.deepcopy(validation_traces), logger, step=0, tb_logger=tb_logger))
 				tags_prefix.append("Init_NN: ")
@@ -280,6 +282,7 @@ def central_agent(net_weights_qs, net_gradients_qs, stats_qs):
 			logger.info("Finish validation for heuristics and initialized NN.")
 
 		while step <= pm.TOT_NUM_STEPS:
+			logger.info("step:" + str(step))
 			# send updated parameters to agents
 			policy_weights = policy_net.get_weights()
 			if pm.VALUE_NET:
@@ -450,21 +453,22 @@ def sl_agent(net_weights_q, net_gradients_q, stats_q, id):
 					env = optimus_env.Optimus_Env("Optimus", job_trace, logger)
 
 				while not env.end:
-					logger.info("env:"+str(len(env.completed_jobs)))
 					if pm.LOG_MODE == "DEBUG":
 						time.sleep(0.01)
 					data = env.step()
-					logger.debug("ts length:" + str(len(data)))
+					logger.info("ts length:" + str(len(data)))
+					logger.info("len(self.completed_jobs)"+str(len(env.completed_jobs)))
 
 					for (input, label) in data:
 						mem_store.store(input, 0, label, 0)
-					# store in mem,  use random SGD, take sample from mem_store, then 
-
+					# store in mem,  use random SGD, take sample from mem_store, then begin superversed learning to calculate gradients
+					logger.info("len(self.memory)" + str(len(mem_store.memory)))
 					if mem_store.full():
 						# prepare a training batch
 						_, trajectories, _ = mem_store.sample(pm.MINI_BATCH_SIZE)
 						input_batch = [traj.state for traj in trajectories]
 						label_batch = [traj.action for traj in trajectories]
+						logger.info("prepared a training batch")
 
 						# pull latest weights before training
 						weights = net_weights_q.get()
@@ -474,7 +478,9 @@ def sl_agent(net_weights_q, net_gradients_q, stats_q, id):
 						policy_net.set_weights(weights)
 
 						# superversed learning to calculate gradients
+						logger.info("superversed learning to calculate gradients")
 						entropy, loss, policy_grads = policy_net.get_sl_gradients(np.stack(input_batch),np.vstack(label_batch))
+						logger.info("len(env.completed_jobs):"+str(len(env.completed_jobs))+"loss :" + str(loss))
 						for i in range(len(policy_grads)):
 							assert np.any(np.isnan(policy_grads[i])) == False
 

@@ -71,6 +71,9 @@ def optimus(job_trace=None):
         env.step()
     return [env.get_results(), env.get_job_jcts().values()]
 
+# 你自定义的error_callback函数
+def print_error(value):
+    print("error: ", value)
 
 def compare(traces, logger, debug="False") -> List[Tuple]:
     if debug:
@@ -87,13 +90,15 @@ def compare(traces, logger, debug="False") -> List[Tuple]:
     tic = time.time()
     pool = multiprocessing.Pool(processes=40)
     for i in range(len(traces)):  # one example takes about 10s
-        thread_list[0].append(pool.apply_async(drf, args=(traces[i],)))
-        thread_list[1].append(pool.apply_async(srtf, args=(traces[i],)))
-        thread_list[2].append(pool.apply_async(fifo, args=(traces[i],)))
-        thread_list[3].append(pool.apply_async(tetris, args=(traces[i],)))
-        thread_list[4].append(pool.apply_async(optimus, args=(traces[i],)))
+        thread_list[0].append(pool.apply_async(drf, args=(traces[i],), error_callback=print_error))
+        thread_list[1].append(pool.apply_async(srtf, args=(traces[i],), error_callback=print_error))
+        thread_list[2].append(pool.apply_async(fifo, args=(traces[i],), error_callback=print_error))
+        thread_list[3].append(pool.apply_async(tetris, args=(traces[i],), error_callback=print_error))
+        thread_list[4].append(pool.apply_async(optimus, args=(traces[i],), error_callback=print_error))
     pool.close()
+    logger.info("closed pool") #  It cannot work
     pool.join()
+    logger.info("finished all task")
 
     jct_list = [[] for i in range(num_schedulers)]  # a two dimension matrix
     makespan_list = [[] for i in range(num_schedulers)]
