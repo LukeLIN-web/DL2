@@ -175,7 +175,7 @@ A Deep Learning-driven Scheduler for Deep Learning Clusters  arXiv:1909.06040v1 
 
 ## Remaining Problem
 
-1. `pm.JOB_ARRIVAL_PATTERN == "Ali_Trace"` but `self.ali_trace_arrv_pattern = []` in trace.py.  Empty list without any assignment
+1. `pm.JOB_ARRIVAL_PATTERN == "Ali_Trace"` but `self.ali_trace_arrv_pattern = []` in trace.py.  Empty list without any assignment. This is because We remove Ali_Trace for company data security.
 2. ` prob_sum = np.sum(*self*.ali_trace_job_probs[:*num_type*])` `cumsum = np.cumsum(*self*.ali_trace_job_probs[:*num_type*])`  
  `ali_trace_job_probs` is not define in any other places.
 3. It seems that train starts tensorboard without send data.

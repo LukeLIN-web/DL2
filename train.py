@@ -434,6 +434,7 @@ def sl_agent(net_weights_q, net_gradients_q, stats_q, id):
 		mem_store = memory.Memory(maxlen=pm.REPLAY_MEMORY_SIZE)
 		logger.info("Filling experience buffer...")
 		for epoch in range(pm.TOT_TRAIN_EPOCHS):
+			logger.info("epoch:"+str(epoch))
 			for episode in range(pm.TRAIN_EPOCH_SIZE):
 				tic = time.time()
 				job_trace = copy.deepcopy(traces[episode])
@@ -449,6 +450,7 @@ def sl_agent(net_weights_q, net_gradients_q, stats_q, id):
 					env = optimus_env.Optimus_Env("Optimus", job_trace, logger)
 
 				while not env.end:
+					logger.info("env:"+str(len(env.completed_jobs)))
 					if pm.LOG_MODE == "DEBUG":
 						time.sleep(0.01)
 					data = env.step()
