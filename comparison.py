@@ -75,7 +75,9 @@ def optimus(job_trace=None):
 def print_error(value):
     print("error: ", value)
 
+
 def compare(traces, logger, debug="False") -> List[Tuple]:
+    logger.info("closed pool") 
     if debug:
         drf(traces[0])
         srtf(traces[0])
@@ -96,9 +98,9 @@ def compare(traces, logger, debug="False") -> List[Tuple]:
         thread_list[3].append(pool.apply_async(tetris, args=(traces[i],), error_callback=print_error))
         thread_list[4].append(pool.apply_async(optimus, args=(traces[i],), error_callback=print_error))
     pool.close()
-    logger.info("closed pool") #  It cannot work
+    logger.info("closed pool") 
     pool.join()
-    logger.info("finished all task")
+    logger.info("finished all task") #  It cannot work
 
     jct_list = [[] for i in range(num_schedulers)]  # a two dimension matrix
     makespan_list = [[] for i in range(num_schedulers)]

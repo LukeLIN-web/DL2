@@ -163,6 +163,7 @@ scheduler_base has attribute cluster
 * job.py
 
    * step() :  including location,  calculate  number of ps/worker on each cluster node. calculate effective_ inter/intra bandwidth. - > Transmission time   -> iteration time  ->epoch
+   * step() calculate intra_trans_time from colocation information. and then compute epoch.
 
 * rl_env.py 
   * step() missing 1 required positional   
@@ -182,4 +183,5 @@ A Deep Learning-driven Scheduler for Deep Learning Clusters  arXiv:1909.06040v1 
 4. fifo env cannot solve same time, which can be solved by more condition. I import random and add `random.random()`   in these xx_env.py
 5. step() missing 1 required positional   argument:'output'
 6. rl_env  step()  has  some problems , one is   [action/3]  indicces float error, another is step(self,output)  overwrite scheduler_base.py . I cannot run test() correctly.
+7. comparsion import trace.py , trace.py import speed.py, in comparsion process pool 
 
