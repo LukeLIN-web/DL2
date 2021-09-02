@@ -14,7 +14,7 @@ pip install tensorflow-gpu==1.13.1
 reference [Build from source  | TensorFlow (google.cn)](https://tensorflow.google.cn/install/source?hl=en)	
 
 ```
-	python2.7, 3.3-3.7	
+	python2.7 
 	GCC 4.8	
 	Bazel 0.19.2	
 	cuDNN7.4
@@ -170,7 +170,7 @@ scheduler_base has attribute cluster
 
 
 ## Publication
-A Deep Learning-driven Scheduler for Deep Learning Clusters  arXiv:1909.06040v1 [cs.LG] 13 Sep 2019
+A Deep Learning-driven Scheduler for Deep Learning Clusters  arXiv:1909.06040v1 [cs.LG] 13 Sep 2019. 
 
 
 
@@ -184,4 +184,6 @@ A Deep Learning-driven Scheduler for Deep Learning Clusters  arXiv:1909.06040v1 
 5. step() missing 1 required positional   argument:'output'
 6. rl_env  step()  has  some problems , one is   [action/3]  indicces float error, another is step(self,output)  overwrite scheduler_base.py . I cannot run test() correctly.
 7. comparsion import trace.py , trace.py import speed.py, in comparsion process pool 
+
+8. 
 

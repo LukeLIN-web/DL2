@@ -266,7 +266,7 @@ def central_agent(net_weights_qs, net_gradients_qs, stats_qs):
 				validation_traces.append(trace.Trace(None).get_trace())
 			stats = comparison.compare(copy.deepcopy(validation_traces), logger)
 			logger.info("return state ") #  It cannot work
-			# deep copy to avoid cha	nges to validation_traces
+			# deep copy to avoid changes to validation_traces
 			if not pm.SKIP_FIRST_VAL:
 				stats.append(test(policy_net, copy.deepcopy(validation_traces), logger, step=0, tb_logger=tb_logger))
 				tags_prefix.append("Init_NN: ")

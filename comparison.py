@@ -12,7 +12,10 @@ import srtf_env
 import fifo_env
 import tetris_env
 import optimus_env
-import copy_reg
+try:
+    import copy_reg
+except:
+    import copyreg as copy_reg
 import types
 
 
